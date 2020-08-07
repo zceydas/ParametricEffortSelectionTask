@@ -6,7 +6,7 @@ There are two phases to the experiment: Learning and Decision phases. The total 
 
 In the Decision phase, participants make a choice between which deck to play from. There are 6 unique effort pairings (as there are 4 effort levels) and there are 12 total presentations of each pairing.The Decison Phase is optimized (using optseq2) for a fMRI session with TR of .72.
 
-There can be 2 sessions to the experiment. On each session, different color of decks of cards are used for effort-level association. 
+There can be 2 sessions to the experiment. On each session, different color of decks of cards are used for effort-level association and different hand-rule maps are used. 
 
 ## Instructions
 Download the SeqPref folder and run the 'StudyWrapper.m' on Matlab (Psychtoolbox installed). When prompted, enter Subject ID, indicate which session it is (whether it is Test or reTest) and indicate whether it is Learning or Decision Phase. Learning phase needs to come before the Decision Phase. 
