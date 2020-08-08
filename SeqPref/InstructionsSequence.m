@@ -35,8 +35,8 @@ if versionNo==1 %black parity cards, red magnitude cards, even on the right, odd
     
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-    DrawFormattedText(display.windowPtr, '<-  ODD', centerX -350  , centerY + 350, [255 255 255], [100]);
-    DrawFormattedText(display.windowPtr, 'EVEN  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
+%     DrawFormattedText(display.windowPtr, '<-  ODD', centerX -350  , centerY + 350, [255 255 255], [100]);
+%     DrawFormattedText(display.windowPtr, 'EVEN  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -86,8 +86,8 @@ if versionNo==1 %black parity cards, red magnitude cards, even on the right, odd
     
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-    DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-    DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -152,7 +152,7 @@ elseif versionNo == 2 % parity black cards, magnitude red cards, even on the lef
     
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-    DrawFormattedText(display.windowPtr, 'ODD  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
+%     DrawFormattedText(display.windowPtr, 'ODD  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -201,8 +201,8 @@ elseif versionNo == 2 % parity black cards, magnitude red cards, even on the lef
     end
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-    DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-    DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -269,9 +269,9 @@ elseif versionNo == 3 % parity red cards, black magnitude cards, even on the rig
     inst=1; colorName2='BLACK'; colorName1='RED'; arrowside1='RIGHT ARROW (->)'; arrowside2='LEFT ARROW (<-)';
     
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-    DrawFormattedText(display.windowPtr, '<-  ODD', centerX -350  , centerY + 350, [255 255 255], [100]);
-    DrawFormattedText(display.windowPtr, 'EVEN  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
-    Screen('Flip',display.windowPtr);
+%     DrawFormattedText(display.windowPtr, '<-  ODD', centerX -350  , centerY + 350, [255 255 255], [100]);
+%     DrawFormattedText(display.windowPtr, 'EVEN  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
+     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -321,8 +321,8 @@ elseif versionNo == 3 % parity red cards, black magnitude cards, even on the rig
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-    DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-    DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -385,8 +385,8 @@ elseif versionNo == 4 % parity red cards, magnitude black cards, even on the lef
     inst=1; colorName2='BLACK'; colorName1='RED'; arrowside2='RIGHT ARROW (->)'; arrowside1='LEFT ARROW (<-)';
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-    DrawFormattedText(display.windowPtr, '<-  EVEN', centerX -350  , centerY + 350, [255 255 255], [100]);
-    DrawFormattedText(display.windowPtr, 'ODD  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
+%     DrawFormattedText(display.windowPtr, '<-  EVEN', centerX -350  , centerY + 350, [255 255 255], [100]);
+%     DrawFormattedText(display.windowPtr, 'ODD  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -437,8 +437,8 @@ elseif versionNo == 4 % parity red cards, magnitude black cards, even on the lef
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-    DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-    DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
+%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
@@ -497,7 +497,8 @@ elseif versionNo == 4 % parity red cards, magnitude black cards, even on the lef
 end
 
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
-    'Now lets do a full practice and make sure we understand the rules! ', ...
+    'Now lets do a full practice ', ...
+    'and make sure we understand the rules!',...
     'Remember to be as fast and as accurate as possible! ', ...
     '(Press a key to start practicing)'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
 Screen('Flip',display.windowPtr);
