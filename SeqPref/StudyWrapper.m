@@ -20,7 +20,7 @@ namestr = st.name;
 directory=fileparts(which([namestr, '.m']));
 cd(directory)
 addpath(directory) % set path to necessary files
-addpath([directory '\PsychtoolNeces'])
+addpath(fullfile(directory,'PsychtoolNeces'))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%% Subject specific input %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
