@@ -9,8 +9,11 @@ In the Decision phase, participants make a choice between which deck to play fro
 There can be 2 sessions to the experiment. On each session, different color of decks of cards are used for effort-level associations and on each session, different hand-rule mappings are used. 
 
 ## Instructions
-Download the SeqPref folder and run the 'StudyWrapper.m' on Matlab (Psychtoolbox installed). When prompted, enter Subject ID, indicate which session it is (whether it is Test or reTest) and indicate whether it is Learning or Decision Phase. Learning phase needs to come before the Decision Phase. The data is stored in 2 ways: 1) live updated in SeqPref.mat in the project folder under Results.Subject(subjectId), 2) saved as an excel file for each subject Id, Session, Phase
-and date.
+Download the SeqPref folder and run the 'StudyWrapper.m' on Matlab (Psychtoolbox installed). Run as a function, this script sets path to the folder the function is stored and its subfolder (PsychtoolNeces). 
+
+When prompted, enter Subject ID, indicate which session it is (whether it is Test or reTest, e.g. drug sessions) and indicate whether it is Learning or Decision Phase. Learning phase needs to be performed before the Decision Phase with the same subject ID. 
+
+The data is stored in 2 ways: 1) live updated in SeqPref.mat in the project folder under Results.Subject(subjectId), 2) saved as an excel file for each subject Id, Session, Phase and date.
 
 ## Contributing
 Fork this project and open a pull request.
