@@ -9,7 +9,7 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'We will explain each phase separately. ', ...
     'The entire experiment lasts about 40min.', ...
     'You can pause the game at any time by pressing ESCAPE.', ...
-    'To walk through the instructions, press any key.'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+    'To walk through the instructions, press any key.'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr);
 KbStrokeWait;
 
@@ -19,7 +19,7 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'To decide whether a number is:', ...
     '1) odd or even', ...
     '2) smaller or greater than 5',...
-    '(To advance to the next instruction screen, press any key.)'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+    '(To advance to the next instruction screen, press any key.)'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr);
 KbStrokeWait;
 
@@ -35,10 +35,15 @@ if versionNo==1 %black parity cards, red magnitude cards, even on the right, odd
     
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-%     DrawFormattedText(display.windowPtr, '<-  ODD', centerX -350  , centerY + 350, [255 255 255], [100]);
-%     DrawFormattedText(display.windowPtr, 'EVEN  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
+    
+    [img] = imread('BlackCard_EvenRight_OddLeft.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
+    
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,10 +91,15 @@ if versionNo==1 %black parity cards, red magnitude cards, even on the right, odd
     
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
+    
+    [img] = imread('RedCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
+    
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,6 +153,18 @@ if versionNo==1 %black parity cards, red magnitude cards, even on the right, odd
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
+    [img] = imread('BlackCard_EvenRight_OddLeft.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
+    
+    [img] = imread('RedCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
+    
     
     
 elseif versionNo == 2 % parity black cards, magnitude red cards, even on the left, odd on the right, smaller on the left, greater on the right
@@ -152,8 +174,13 @@ elseif versionNo == 2 % parity black cards, magnitude red cards, even on the lef
     
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-%     DrawFormattedText(display.windowPtr, 'ODD  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
     Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('BlackCard_EvenLeft_OddRight.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,9 +228,13 @@ elseif versionNo == 2 % parity black cards, magnitude red cards, even on the lef
     end
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('RedCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -257,6 +288,17 @@ elseif versionNo == 2 % parity black cards, magnitude red cards, even on the lef
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
+    [img] = imread('BlackCard_EvenLeft_OddRight.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
+    
+    [img] = imread('RedCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
     
     
     
@@ -269,9 +311,13 @@ elseif versionNo == 3 % parity red cards, black magnitude cards, even on the rig
     inst=1; colorName2='BLACK'; colorName1='RED'; arrowside1='RIGHT ARROW (->)'; arrowside2='LEFT ARROW (<-)';
     
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-%     DrawFormattedText(display.windowPtr, '<-  ODD', centerX -350  , centerY + 350, [255 255 255], [100]);
-%     DrawFormattedText(display.windowPtr, 'EVEN  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
-     Screen('Flip',display.windowPtr);
+    Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('RedCard_EvenRight_OddLeft.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -320,10 +366,13 @@ elseif versionNo == 3 % parity red cards, black magnitude cards, even on the rig
     
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
-    
-%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('BlackCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -377,7 +426,17 @@ elseif versionNo == 3 % parity red cards, black magnitude cards, even on the rig
     Screen('Flip',display.windowPtr);
     KbStrokeWait;
     
+    [img] = imread('RedCard_EvenRight_OddLeft.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
     
+    [img] = imread('BlackCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
     
     
 elseif versionNo == 4 % parity red cards, magnitude black cards, even on the left, odd on the right, smaller on the left, greater on the right
@@ -385,9 +444,13 @@ elseif versionNo == 4 % parity red cards, magnitude black cards, even on the lef
     inst=1; colorName2='BLACK'; colorName1='RED'; arrowside2='RIGHT ARROW (->)'; arrowside1='LEFT ARROW (<-)';
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-%     DrawFormattedText(display.windowPtr, '<-  EVEN', centerX -350  , centerY + 350, [255 255 255], [100]);
-%     DrawFormattedText(display.windowPtr, 'ODD  ->', centerX +350  , centerY + 350, [255 255 255], [100]);
     Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('RedCard_EvenLeft_OddRight.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -437,9 +500,13 @@ elseif versionNo == 4 % parity red cards, magnitude black cards, even on the lef
     inst=2;
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
-%     DrawFormattedText(display.windowPtr, '<-  5>', centerX -350  , centerY + 350, [255 255 255] , [100]);
-%     DrawFormattedText(display.windowPtr, '>5  ->', centerX +350  , centerY + 350, [255 255 255] , [100]);
     Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('BlackCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -491,6 +558,18 @@ elseif versionNo == 4 % parity red cards, magnitude black cards, even on the lef
     [display]=InstructionLines(colorName1,colorName2,arrowside1,arrowside2,inst,display);
     
     Screen('Flip',display.windowPtr);
+    KbStrokeWait;
+    
+    [img] = imread('RedCard_EvenLeft_OddRight.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
+    KbStrokeWait;
+    
+    [img] = imread('BlackCard_Magnitude.png');
+    Screen(display.windowPtr,'PutImage',img,[centerX - 600, centerY - 400, centerX + 600, centerY + 400]);
+    Screen('Flip',display.windowPtr);
+    WaitSecs(UntilKey);
     KbStrokeWait;
     
     
@@ -509,25 +588,40 @@ m = 0; level = 999; Instructions = 1;
 [imgtile] = imread('PracticeTile','png');
 acc = 0; learning=0; switchnumber=4;
 while learning < 1 % learning happens with 50% switch probability and a predetermined sequence
-    Order = [ 1 2 2 2 1 1 2 1]; Shuffle(Order);
+    Order = [ 1 2 2 2 1 1 2 1]; 
+    
+    Shuffle(Order);
     [List,Parity,Magnitude,ParityOrder] = GenerateNumbers(j,kind,NoNumbers,Order,exclude,versionNo)
     [Responses,m] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses)
     Results.Subject(subjectId).Session(Session).Responses.Practice = Responses.Trial;
     j=j+1;
-    acc = mean(Responses.Trial((Responses.Trial(:,3)<9),3));
     
-    if acc < .7
+    Shuffle(Order);
+    [List,Parity,Magnitude,ParityOrder] = GenerateNumbers(j,kind,NoNumbers,Order,exclude,versionNo)
+    [Responses,m] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses)
+    Results.Subject(subjectId).Session(Session).Responses.Practice = Responses.Trial;
+    j=j+1;
+    
+    Shuffle(Order);
+    [List,Parity,Magnitude,ParityOrder] = GenerateNumbers(j,kind,NoNumbers,Order,exclude,versionNo)
+    [Responses,m] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses)
+    Results.Subject(subjectId).Session(Session).Responses.Practice = Responses.Trial;
+    j=j+1;
+    
+    AverageOver=[]; AverageOver=Responses.Trial(end-23:end,3);
+    acc = mean(AverageOver((AverageOver<9),:));
+    if acc < .90
         learning = 0;
         DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
             'Do you have any questions?', ...
             'If yes, please ask the experimenter now.', ...
             'If not, lets continue with the practice!', ...
-            '(Press a key to continue.)'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+            '(Press a key to continue.)'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
         Screen('Flip',display.windowPtr); KbStrokeWait;
     else
         DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
             'Great! You are now done with the practice.', ...
-            'Press a key to learn about the experimental instructions!'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+            'Press a key to learn about the experimental instructions!'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
         Screen('Flip',display.windowPtr); KbStrokeWait; learning = 1;
         break
     end
@@ -555,7 +649,7 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'the upcoming card games are dealt from.', ...
     'The same card deck will be tiled in the background as you', ...
     'play the games as well.', ...
-    '(Press a key to start the experiment)'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+    '(Press a key to start the experiment)'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr);
 KbStrokeWait;
 

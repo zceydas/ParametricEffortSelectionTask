@@ -8,8 +8,10 @@ function [Results]=StudyWrapper()
 %%%%%% This study can be run twice on the same participant (test/retest) %%
 %%%%%% Selection Phase ITIs are optimized for fMRI hybrid design with a %%%
 %%%%%% TR of 720 ms. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% Results is the main data output along with the excel files %%%%%%%%%
+%%%%%% Results (SeqPref.mat) is the main data output along with the %%%%%%%
+%%%%%% excel files in the created subject subfolder %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clear all
 clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -31,6 +33,10 @@ if mod(subjectId,Session+1) == 1 % two different sets of cards for 2 separate se
     colorlist = {'Blue','Green','Yellow','Red'}; %these letters will be used for selecting the card images
 else
     colorlist = {'Grey','Orange','Purple','Turco'}; %these letters will be used for selecting the card images
+end
+datafileName = ['ID_' num2str(subjectId) '_Data Folder'];
+if ~exist(datafileName, 'dir')
+  mkdir(datafileName);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%% Phase general values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,7 +75,7 @@ global rightkey leftkey endcode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Screen('Preference', 'SkipSyncTests', 1);
 Screen('Preference','VisualDebugLevel', 0);
-%PsychDebugWindowConfiguration(0,0.5) % for debugging purposes
+PsychDebugWindowConfiguration(0,0.5) % for debugging purposes
 screens=Screen('Screens');
 screenNumber=max(screens);
 [display.windowPtr, windowRect]=Screen('OpenWindow', screenNumber, 0, [], 32, 2);
@@ -108,8 +114,16 @@ switch Session
         switch Phase
             case 1 % Learning Phase
                 [Results] = LearningPhaseSequence(Instructions);
+                files = dir(['*_subject' num2str(subjectId) '*.xlsx']);                
+                for f=1:length(files)
+                movefile(fullfile(files(f).folder,files(f).name), datafileName)
+                end
             case 2 % Decision Phase
                 [Results] = DecisionPhaseSequence(Instructions);
+                files = dir(['*_subject' num2str(subjectId) '*.xlsx']);                
+                for f=1:length(files)
+                    movefile(fullfile(files(f).folder,files(f).name), datafileName)
+                end
             otherwise
                 Screen('CloseAll');
                 ListenChar(0);

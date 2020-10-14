@@ -20,12 +20,11 @@ save SeqPref Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Screen('TextSize', display.windowPtr, 25);
 textcolor=[255, 255, 255]; % instruction and fixation cross color
-[xCen, yCen] = RectCenter(windowRect);
 boxAngle = 45; buttonDistance = 850;
 [x1,y1] = pol2cart(((90 - boxAngle/2)*pi)/160,buttonDistance);
 ymarkerOffset = 20;
-pos(1,:) = [xCen-x1,centerY -21];%
-pos(2,:) = [xCen+x1,centerY -21];%
+pos(1,:) = [centerX-x1,centerY -21];%
+pos(2,:) = [centerX+x1,centerY -21];%
 answerBoxSize = 40;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Set Parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
