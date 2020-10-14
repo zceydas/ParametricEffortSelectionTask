@@ -75,7 +75,7 @@ global rightkey leftkey endcode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Screen('Preference', 'SkipSyncTests', 1);
 Screen('Preference','VisualDebugLevel', 0);
-PsychDebugWindowConfiguration(0,0.5) % for debugging purposes
+%PsychDebugWindowConfiguration(0,0.5) % for debugging purposes
 screens=Screen('Screens');
 screenNumber=max(screens);
 [display.windowPtr, windowRect]=Screen('OpenWindow', screenNumber, 0, [], 32, 2);
