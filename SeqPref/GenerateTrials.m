@@ -41,8 +41,29 @@ for Trial = 1 : NoNumbers
                 if (~keyCode(rightkey) && ~keyCode(leftkey));Resp=9;end
                 break;
             else
-                WaitSecs(FixDur)
-                KbStrokeWait;
+                Screen('TextSize', display.windowPtr, 25);
+                DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+                    'Press ESC to quit the game or press any key to continue.'), 'center', 'center',[255 255 255], [100],[],[],[1.25]);
+                Screen('Flip',display.windowPtr);
+                WaitSecs(UntilKey)
+                while KbCheck;
+                end;
+                while 1
+                    [keyIsDown,TimeStamp,keyCode] = KbCheck;
+                    if keyIsDown
+                        if (keyCode(endcode))
+                            Screen('TextSize', display.windowPtr, 25);
+                            DrawFormattedText(display.windowPtr, 'Study is over. Thanks for your participation! ', 'center', 'center', [255 255 255], [100]);
+                            Screen('Flip',display.windowPtr);
+                            WaitSecs(2);
+                            Screen('CloseAll');
+                            ListenChar(0);
+                            ShowCursor;
+                        elseif (~keyCode(endcode))
+                            break;
+                        end
+                    end
+                end
             end
             while KbCheck;end; % wait until key is released.
         end
