@@ -61,7 +61,7 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'This is the Decision Phase. This phase takes around 20 minutes.', ...
     'In this phase, you will choose between the games you played', ...
     'in the Learning phase.', ...
-    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.25]);
+    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
 KbStrokeWait;
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
@@ -69,14 +69,14 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'for you to choose between.',...
     'MAKE EACH DECISION CAREFULLY, because after each choice', ...
     'you will play the game selected from the deck of your choice', ...
-    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.25]);
+    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
 KbStrokeWait;
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
     'Study time is the same and will not change based on your',...
     'choices.', ...
     'Always choose the deck you prefer to play from. ', ...
-    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.25]);
+    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
 KbStrokeWait;
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
@@ -84,11 +84,11 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'and one on the right side of the screen.', ...
     'To make your choice, use LEFT or RIGHT ARROW keys.', ...
     'Make your choices as quickly and carefully as possible.', ...
-    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.25]);
+    '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
 KbStrokeWait;
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
-    'Now press a key to start the experiment.'), 'center', 'center',textcolor, [100],[],[],[1.25]);
+    'Now press a key to start the experiment.'), 'center', 'center',textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
 KbStrokeWait;
 
@@ -138,8 +138,30 @@ while m < 10000
                     if (keyCode(rightkey)); take=0; level = level2; imgtile = imgfixtile; end
                     break;
                 else
+                    Screen('TextSize', display.windowPtr, 25);
+                    DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+                        'Press ESC to quit the game or press any key to continue.'), 'center', 'center',textcolor, [100],[],[],[1.25]);
+                    Screen('Flip',display.windowPtr);
                     WaitSecs(UntilKey)
-                    KbStrokeWait;
+                    while KbCheck;
+                    end;
+                    while 1
+                        [keyIsDown,TimeStamp,keyCode] = KbCheck;
+                        if keyIsDown
+                            if (keyCode(endcode))
+                                save SeqPref Results
+                                Screen('TextSize', display.windowPtr, 25);
+                                DrawFormattedText(display.windowPtr, 'Study is over. Thanks for your participation! ', 'center', 'center', [255 255 255], [100]);
+                                Screen('Flip',display.windowPtr);
+                                WaitSecs(WaitTime);
+                                Screen('CloseAll');
+                                ListenChar(0);
+                                ShowCursor;
+                            elseif (~keyCode(endcode))
+                                break;
+                            end
+                        end
+                    end
                 end
                 while KbCheck;end; % wait until key is released.
             end
