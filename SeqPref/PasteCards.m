@@ -1,9 +1,9 @@
 function [TrialType] = PasteCards(Order,Trial,display,imgtile,centerX,centerY,UntilKey,Parity,Number,versionNo)
-
+xcor=500; ycor=300;
 if versionNo == 1 || versionNo == 2 % parity black cards, red magnitude cards
     
     if Order(Trial) == Parity
-        Screen(display.windowPtr,'PutImage',imgtile,[centerX - 550, centerY - 400, centerX + 550, centerY + 400]);
+        Screen(display.windowPtr,'PutImage',imgtile,[centerX - xcor, centerY - ycor, centerX + xcor, centerY + ycor]);
         TrialType = 1;
         DeckName=['Spade' num2str(Number)];
         [img] = imread(DeckName,'png');
@@ -12,7 +12,7 @@ if versionNo == 1 || versionNo == 2 % parity black cards, red magnitude cards
         Screen('Flip',display.windowPtr);
         WaitSecs(UntilKey);
     else
-        Screen(display.windowPtr,'PutImage',imgtile,[centerX - 550, centerY - 400, centerX + 550, centerY + 400]);
+        Screen(display.windowPtr,'PutImage',imgtile,[centerX - xcor, centerY - ycor, centerX + xcor, centerY + ycor]);
         TrialType = 2;
         DeckName=['Heart' num2str(Number)];
         [img] = imread(DeckName,'png');
@@ -23,7 +23,7 @@ if versionNo == 1 || versionNo == 2 % parity black cards, red magnitude cards
     end
 elseif versionNo == 3 || versionNo == 4 % parity red cards, black magnitude cards
     if Order(Trial) == Parity
-        Screen(display.windowPtr,'PutImage',imgtile,[centerX - 550, centerY - 400, centerX + 550, centerY + 400]);
+        Screen(display.windowPtr,'PutImage',imgtile,[centerX - xcor, centerY - ycor, centerX + xcor, centerY + ycor]);
         TrialType = 1;
         DeckName=['Heart' num2str(Number)];
         [img] = imread(DeckName,'png');
@@ -32,7 +32,7 @@ elseif versionNo == 3 || versionNo == 4 % parity red cards, black magnitude card
         Screen('Flip',display.windowPtr);
         WaitSecs(UntilKey);
     else
-        Screen(display.windowPtr,'PutImage',imgtile,[centerX - 550, centerY - 400, centerX + 550, centerY + 400]);
+        Screen(display.windowPtr,'PutImage',imgtile,[centerX - xcor, centerY - ycor, centerX + xcor, centerY + ycor]);
         TrialType = 2;
         DeckName=['Spade' num2str(Number)];
         [img] = imread(DeckName,'png');
