@@ -1,7 +1,10 @@
 function  [Responses,m,ExecutionStartTime] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses)
 
+global fixFont textfont
+
+xcor=500; ycor=300;
 Count = 0;
-Screen('TextSize',display.windowPtr, 40);
+Screen('TextSize',display.windowPtr, fixFont);
 Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   [255 255 255]); Screen('Flip',display.windowPtr); WaitSecs(FixDur);
 
 for Trial = 1 : NoNumbers
@@ -13,10 +16,10 @@ for Trial = 1 : NoNumbers
         ExecutionStartTime=GetSecs;
     end
     TrialStartTime=GetSecs;
-    Screen(display.windowPtr,'PutImage',imgtile,[centerX - 550, centerY - 400, centerX + 550, centerY + 400]);
+    Screen(display.windowPtr,'PutImage',imgtile,[centerX - xcor, centerY - ycor, centerX + xcor, centerY + ycor]);
     Number = List(Trial);
     
-    Screen('TextSize',display.windowPtr, 40);
+    Screen('TextSize',display.windowPtr, fixFont);
     Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   [255 255 255]); Screen('Flip',display.windowPtr); WaitSecs(FixDur);
     
     
@@ -41,7 +44,7 @@ for Trial = 1 : NoNumbers
                 if (~keyCode(rightkey) && ~keyCode(leftkey));Resp=9;end
                 break;
             else
-                Screen('TextSize', display.windowPtr, 25);
+                Screen('TextSize', display.windowPtr, textfont);
                 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
                     'Press ESC to quit the game or press any key to continue.'), 'center', 'center',[255 255 255], [100],[],[],[1.25]);
                 Screen('Flip',display.windowPtr);
@@ -52,7 +55,7 @@ for Trial = 1 : NoNumbers
                     [keyIsDown,TimeStamp,keyCode] = KbCheck;
                     if keyIsDown
                         if (keyCode(endcode))
-                            Screen('TextSize', display.windowPtr, 25);
+                            Screen('TextSize', display.windowPtr, textfont);
                             DrawFormattedText(display.windowPtr, 'Study is over. Thanks for your participation! ', 'center', 'center', [255 255 255], [100]);
                             Screen('Flip',display.windowPtr);
                             WaitSecs(2);
@@ -88,12 +91,16 @@ for Trial = 1 : NoNumbers
         % Resp is the odd/even response. If right key, then even response, if left
         % key then odd response
       
-        Screen(display.windowPtr,'PutImage',imgtile,[centerX - 550, centerY - 400, centerX + 550, centerY + 400]);
+        Screen(display.windowPtr,'PutImage',imgtile,[centerX - xcor, centerY - ycor, centerX + xcor, centerY + ycor]);
+        Screen('TextSize',display.windowPtr, textfont);
+
         if Resp == 9
             Correct = 0;
             DrawFormattedText(display.windowPtr, 'You pressed the wrong key! ', 'center', 'center', [255 255 255], [100]);
             Screen('Flip',display.windowPtr);
-            KbStrokeWait;
+            WaitSecs(WaitTime);
+
+            
         else
             
             if Resp == CorAns

@@ -2,7 +2,7 @@ function  [Results] = LearningPhaseSequence(Instructions)
 global MaxLevel subjectId Session letterperm NoNumbers exclude WaitTime FixDur UntilKey PracticeContextDur TrialDeadline ITI 
 global NoTrial 
 global rightkey leftkey endcode
-global display centerX centerY
+global display centerX centerY fixFont textfont
 Responses=[];
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % %%%%% Record the subject number %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,7 +50,7 @@ Responses=[];
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%% set the symbol icon %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            Screen('TextSize',display.windowPtr, 30);
+            Screen('TextSize',display.windowPtr, fixFont);
             Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   [255 255 255]); Screen('Flip',display.windowPtr); WaitSecs(ITI+rand);
             ContextOnset = GetSecs; 
             if i == 1
@@ -82,7 +82,7 @@ Responses=[];
             %%%%%%%%%%%% End Screen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             if temp2(1,j+1)==0
-                Screen('TextSize', display.windowPtr, 25);
+                Screen('TextSize', display.windowPtr, textfont);
                 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n', ...
                     'Next, you will move on to the Decision Phase. ', ...
                     'Now, we will take a break.', ...

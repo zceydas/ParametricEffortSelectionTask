@@ -1,9 +1,14 @@
 function [Results] = DecisionPhaseSequence(Instructions)
 global MaxLevel subjectId Session NoNumbers exclude WaitTime FixDur UntilKey TrialDeadline SelectionDeadline ISI
-global rightkey leftkey endcode 
-global display centerX centerY windowRect
+global endcode 
+global display centerX centerY fixFont textfont
+leftkey = KbName('2@');%yellow button';  
+rightkey=KbName('3#');%green button
+researchgo=KbName('Return'); % blue button 
+trigger=KbName('5%'); % blue button 
 load SeqPref
 Responses=[];
+TotalRunTime=10; Run=1; BreakTime=20;  % break duration between runs
 FirstFixation=10.8; % first fixation cross lasts this long
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Subject info %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +23,7 @@ save SeqPref Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% Setup Screen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Screen('TextSize', display.windowPtr, 25);
+Screen('TextSize', display.windowPtr, textfont);
 textcolor=[255, 255, 255]; % instruction and fixation cross color
 boxAngle = 45; buttonDistance = 850;
 [x1,y1] = pol2cart(((90 - boxAngle/2)*pi)/160,buttonDistance);
@@ -30,16 +35,21 @@ answerBoxSize = 40;
 %%%%%%%%%%%%%%%%%% Set Parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % create the choice vector based on the optseq outputs
-TempTable=[];TempTable=readtable(['outputfiles-00', num2str(mod(subjectId,4)+1), '.txt']); % based on subject number, one of four best optseq2 sequences is selected
+TempTable=[];TempTable=readtable(['outputfiles-001.txt']); % based on subject number, one of four best optseq2 sequences is selected
 DifLevels = [1:MaxLevel];
 combs = combntns([DifLevels],2); %here we get the permutation of all possible difficulty level combinations
 TempOrder=[]; TempOrder=TempTable.Var2(find(TempTable.Var2>0),:);
 Side=[]; % counterbalances the left/right placement of the effort decks
 for noP=1:length(unique(TempOrder))
-    TempList=[]; TempList=Shuffle(find(TempOrder==noP));
-    Side(1,TempList(1:length(TempList)/2))=1;
-    Side(1,TempList((length(TempList)/2)+1:end))=2;
+    TempList=[]; list=[]; list=find(TempOrder==noP); TempList=[Shuffle(list(1:length(list)/2)); Shuffle(list((length(list)/2+1):end))];
+    firstQ=[1:length(TempList)/4]; secondQ=[length(TempList)/4+1:(length(TempList)/4*2)];
+    thirdQ=[length(TempList)/4*2+1:(length(TempList)/4*3)]; fourthQ=[(length(TempList)/4*3)+1:length(TempList)];
+    Side(1,TempList(firstQ))=1;
+    Side(1,TempList(secondQ))=2;
+    Side(1,TempList(thirdQ))=1;
+    Side(1,TempList(fourthQ))=2;
 end
+
 AllTemp=[];
 for t=1:length(TempOrder)
     if Side(1,t)==1
@@ -63,34 +73,72 @@ DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s
     'in the Learning phase.', ...
     '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
-KbStrokeWait;
+
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck(); % this checks trigger
+    if keyIsDown % when the trigger pulses, this will be true
+        break;
+    end
+end
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
     'For each decision, there will be two deck of cards ', ...
     'for you to choose between.',...
     'MAKE EACH DECISION CAREFULLY, because after each choice', ...
     'you will play the game selected from the deck of your choice', ...
     '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
-Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
-KbStrokeWait;
+Screen('Flip',display.windowPtr);  WaitSecs(UntilKey);
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck(); % this checks trigger
+    if keyIsDown % when the trigger pulses, this will be true
+        break;
+    end
+end
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
     'Study time is the same and will not change based on your',...
     'choices.', ...
     'Always choose the deck you prefer to play from. ', ...
     '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
-KbStrokeWait;
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck(); % this checks trigger
+    if keyIsDown % when the trigger pulses, this will be true
+        break;
+    end
+end
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
     'On each trial, you will see one card on the left', ...
     'and one on the right side of the screen.', ...
-    'To make your choice, use LEFT or RIGHT ARROW keys.', ...
+    'To make LEFT and RIGHT choices, use your INDEX and MIDDLE fingers.', ...
     'Make your choices as quickly and carefully as possible.', ...
     '(Press a key to continue)'), 'center', 'center', textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
-KbStrokeWait;
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck(); % this checks trigger
+    if keyIsDown % when the trigger pulses, this will be true
+        break;
+    end
+end
 DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
-    'Now press a key to start the experiment.'), 'center', 'center',textcolor, [100],[],[],[1.5]);
+    'Now please wait for researcher to start the experiment.'), 'center', 'center',textcolor, [100],[],[],[1.5]);
 Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
-KbStrokeWait;
+
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck(); % this checks trigger
+    if keyCode(researchgo) % when the trigger pulses, this will be true
+        break;
+    end
+end
+
+DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+    'Wait for scanner trigger..'), 'center', 'center',textcolor, [100],[],[],[1.5]);
+Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
+
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck(); % this checks trigger
+    if keyCode(trigger) % when the trigger pulses, this will be true
+        break;
+    end
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%% fMRI START %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +146,7 @@ KbStrokeWait;
 %%%%%% Add Pulse Trigger below this line at the Function Start %%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 FunctionStartTime=GetSecs; % this is the time point I assume fMRI is starting recording
-Screen('TextSize',display.windowPtr, 40);
+Screen('TextSize',display.windowPtr, fixFont);
 Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   textcolor);
 Screen('Flip',display.windowPtr); WaitSecs(FirstFixation); % this ITI is retrieved from optseq2 optimized list
 
@@ -117,12 +165,12 @@ while m < 10000
        
         [img,imgtile,imgfix,imgfixtile]=pickDeckImage(IDletter1,IDletter2);
         
-        Screen('TextSize',display.windowPtr, 40);
+        Screen('TextSize',display.windowPtr, fixFont);
         Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   textcolor);
         Screen(display.windowPtr,'PutImage',img,[pos(1,1) - 2*answerBoxSize, pos(1,2)- 3*answerBoxSize, pos(1,1) + 2*answerBoxSize, pos(1,2)+ 3*answerBoxSize])
         Screen(display.windowPtr,'PutImage',imgfix,[pos(2,1) - 2*answerBoxSize, pos(2,2)- 3*answerBoxSize, pos(2,1) + 2*answerBoxSize, pos(2,2)+ 3*answerBoxSize])
         
-        Screen('Flip',display.windowPtr);
+        Screen('Flip',display.windowPtr); 
         OfferStart=GetSecs; 
         WaitSecs(UntilKey);
         while KbCheck;
@@ -138,7 +186,7 @@ while m < 10000
                     if (keyCode(rightkey)); take=0; level = level2; imgtile = imgfixtile; end
                     break;
                 else
-                    Screen('TextSize', display.windowPtr, 25);
+                    Screen('TextSize', display.windowPtr, textfont);
                     DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
                         'Press ESC to quit the game or press any key to continue.'), 'center', 'center',textcolor, [100],[],[],[1.25]);
                     Screen('Flip',display.windowPtr);
@@ -150,7 +198,7 @@ while m < 10000
                         if keyIsDown
                             if (keyCode(endcode))
                                 save SeqPref Results
-                                Screen('TextSize', display.windowPtr, 25);
+                                Screen('TextSize', display.windowPtr, textfont);
                                 DrawFormattedText(display.windowPtr, 'Study is over. Thanks for your participation! ', 'center', 'center', [255 255 255], [100]);
                                 Screen('Flip',display.windowPtr);
                                 WaitSecs(WaitTime);
@@ -230,19 +278,53 @@ while m < 10000
         Results.Subject(subjectId).Session(Session).Responses.DecisionPhase.Execution = Responses.Trial;
         Responses.Test(j,10) = ExecutionStartTime-FunctionStartTime; %beginning of exeuction epoch since the start of the function
         Responses.Test(j,11) = ExecutionEndTime-FunctionStartTime; %beginning of exeuction epoch since the start of the function
+        Responses.Test(j,12)= Run; % keep track of which run it is 
         Results.Subject(subjectId).Session(Session).Responses.DecisionPhase.Selection = Responses.Test;
     elseif take == 9
         % Results.Subject(subjectId).Responses.DecisionPhase.Execution(end+1)=999;
         AllTemp=[AllTemp(:,1:end-1) AllTemp(:,j) AllTemp(:,end)]; % add the unresponded pair to the end
         TempITI=[TempITI(1:end,1); TempITI(j,1)]; % do the same for ITI list
+        Responses.Test(j,12)= Run; % keep track of which run it is 
+        Results.Subject(subjectId).Session(Session).Responses.DecisionPhase.Selection = Responses.Test;
     end
     save SeqPref Results
     
-    Screen('TextSize',display.windowPtr, 40);
+    Screen('TextSize',display.windowPtr, fixFont);
     Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   textcolor);
     Screen('Flip',display.windowPtr); WaitSecs(TempITI(j)); % this ITI is retrieved from optseq2 optimized list
     if AllTemp(1,j+1)==0
         break
+    elseif j == 36
+        Screen('TextSize', display.windowPtr, textfont);
+        DrawFormattedText(display.windowPtr, 'You can now take a break. Please remember to stay still.', 'center', 'center', [255 255 255], [100]);
+        Screen('Flip',display.windowPtr);
+        WaitSecs(BreakTime)
+        answer=[];
+        while 1 %waits for trigger from scanner and then moves on to experiment
+            [keyIsDown,TimeStamp,keyCode] = KbCheck;  
+            if (keyCode(researchgo))
+                break;
+            end
+        end
+        
+
+DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+    'Wait for scanner trigger..'), 'center', 'center',textcolor, [100],[],[],[1.5]);
+Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
+
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck; % this checks trigger
+    if keyCode(trigger) % when the trigger pulses, this will be true
+        break;
+    end
+end
+        
+        
+        FunctionStartTime=GetSecs; % this is the time point I assume fMRI is starting recording
+        Screen('TextSize',display.windowPtr, fixFont);
+        Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   textcolor);
+        Screen('Flip',display.windowPtr); WaitSecs(FirstFixation); % this ITI is retrieved from optseq2 optimized list
+        Run=2;
     end
 end
 
@@ -253,12 +335,13 @@ Results.Subject(subjectId).Session(Session).Date.DecisionEnd = EndTime;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%% Save Data in excel form %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 Temp=[]; Table=[]; Temp=Results.Subject(subjectId).Session(Session).Responses.DecisionPhase.Selection;
 Table=table(Temp(:,1),Temp(:,2),Temp(:,3),Temp(:,4),Temp(:,5),Temp(:,6),Temp(:,7), ...
-    Temp(:,8), Temp(:,9), Temp(:,10), Temp(:,11), ...
+    Temp(:,8), Temp(:,9), Temp(:,10), Temp(:,11), Temp(:,12), ...
     'VariableNames',{'BlockNo','LeftSide_Effort','RightSide_Effort','ChosenLevel', 'ChosenSide','RT', ...
     'MagParKind', 'OfferStartTime', ...
-    'OfferStartTimeSince', 'ExecutionBeginTime', 'ExecutionEndTime' })
+    'OfferStartTimeSince', 'ExecutionBeginTime', 'ExecutionEndTime', 'Run' })
 writetable(Table,['Decision_Selection_Session',num2str(Session),'_' 'subject',num2str(subjectId),'_',date,'.xlsx'])
 
 Temp=[]; Table=[]; Temp=Results.Subject(subjectId).Session(Session).Responses.DecisionPhase.Execution;
@@ -270,11 +353,16 @@ writetable(Table,['Decision_Execution_Session',num2str(Session),'_' 'subject',nu
 
 
 save SeqPref Results
-Screen('TextSize', display.windowPtr, 25);
+Screen('TextSize', display.windowPtr, textfont);
 DrawFormattedText(display.windowPtr, 'Study is over. Thanks for your participation! ', 'center', 'center', [255 255 255], [100]);
 Screen('Flip',display.windowPtr);
 WaitSecs(WaitTime);
-KbStrokeWait;
+while 1
+    [keyIsDown, secs, keyCode] = KbCheck; % this checks trigger
+    if keyIsDown % when the trigger pulses, this will be true
+        break;
+    end
+end
 Screen('CloseAll');
 ListenChar(0);
 ShowCursor;

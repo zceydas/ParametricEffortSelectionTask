@@ -1,3 +1,4 @@
+
 function [Results]=StudyWrapper()
 %%%%%% Wrapper function for the revised and reoptimized Effort %%%%%%%%%%%%
 %%%%%% Selection Task designed by Ceyda Sayali, August 5, 2020 %%%%%%%%%%%%
@@ -7,13 +8,15 @@ function [Results]=StudyWrapper()
 %%%%%% the first (Learning) phase before second (Selection). %%%%%%%%%%%%%%
 %%%%%% This study can be run twice on the same participant (test/retest) %%
 %%%%%% Selection Phase ITIs are optimized for fMRI hybrid design with a %%%
-%%%%%% TR of 720 ms. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TR of 800 ms. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Results (SeqPref.mat) is the main data output along with the %%%%%%%
 %%%%%% excel files in the created subject subfolder %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 clear all
 clc
+global MaxLevel subjectId Session letterperm NoNumbers exclude WaitTime ...
+    FixDur UntilKey PracticeContextDur TrialDeadline ITI SelectionDeadline ...
+    ISI fixFont textfont rightkey leftkey endcode NoTrial display centerX centerY windowRect
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Set Directory %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,42 +57,56 @@ ITI = 2; %average ITI in the Learning Phase
 ISI = 2; % how long the chosen card image stays on the screen in the Decision Phase - and so is the ISI as well
 SelectionDeadline = 3; % the deadline for selection epoch
 Instructions = 0; % should remain 0 if you don't want accuracy feedback throughout Learning and Decision phases (not Practice obviously)
-global MaxLevel subjectId Session letterperm NoNumbers exclude WaitTime FixDur UntilKey PracticeContextDur TrialDeadline ITI SelectionDeadline ISI
+fixFont = 40; % fixation cross and number font size
+textfont = 30; % instruction font size
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Phase specific values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 NoTrial =  10; %number of trials for each unique level in the Learning Phase
-global NoTrial
+load SeqPref
+letter=letterperm(mod(subjectId,length(letterperm))+1,:);
+if Session == 1
+    versionNo=mod(subjectId,4)+1;
+else
+    % based on the first session, cross over the color-magnitude
+    % and the side-parity mappings
+    if mod(subjectId,4)+1 == 1; versionNo = 4;
+    elseif mod(subjectId,4)+1 == 2;  versionNo = 3;
+    elseif mod(subjectId,4)+1 == 3;  versionNo = 2;
+    elseif mod(subjectId,4)+1 == 4;  versionNo = 1;
+    end
+end
+
+Results.Subject(subjectId).Session(Session).Version = versionNo;
+Results.Subject(subjectId).Session(Session).Order = letter;
+save SeqPref Results
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% keyboard responses %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 KbName('UnifyKeyNames')
 KeyTemp=KbName('KeyNames');
-rightkey = KbName('RightArrow');%'RightArrow';
-leftkey = KbName('LeftArrow');%LeftArrow';  
+% rightkey = KbName('RightArrow');%'RightArrow';
+% leftkey = KbName('LeftArrow');%LeftArrow';  
+leftkey = KbName('2@');%yellow button';  
+rightkey=KbName('3#');%green button
 endcode =  find(strcmp(KeyTemp, 'ESCAPE' )); %escape key - if you press Escape during the experiment, study will pause until next key stroke
-global rightkey leftkey endcode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% Setup Screen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Screen('Preference', 'ConserveVRAM', 4096);
 Screen('Preference', 'SkipSyncTests', 1);
 Screen('Preference','VisualDebugLevel', 0);
 %PsychDebugWindowConfiguration(0,0.5) % for debugging purposes
 screens=Screen('Screens');
 screenNumber=max(screens);
+
 [display.windowPtr, windowRect]=Screen('OpenWindow', screenNumber, 0, [], 32, 2);
-display = OpenWindow(display);
-ifi=Screen('GetFlipInterval', display.windowPtr);
-if display.frameRate==0
-    display.frameRate=1/ifi;
-end
-Screen('TextSize', display.windowPtr, 25);
+Screen('TextSize', display.windowPtr, textfont);
 Priority(MaxPriority(0));
 HideCursor;	% Hide the mouse cursor
-centerX = display.resolution(1)/2;
-centerY = display.resolution(2)/2;
-global display centerX centerY windowRect
+[centerX, centerY] = RectCenter(windowRect)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Final Misc Psychtoolbox Setup - dummy calls, etc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
