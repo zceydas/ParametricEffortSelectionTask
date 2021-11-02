@@ -14,6 +14,7 @@ function [Results]=StudyWrapper()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all
 clc
+Results=[]; save SeqPref Results
 global MaxLevel subjectId Session letterperm NoNumbers exclude WaitTime ...
     FixDur UntilKey PracticeContextDur TrialDeadline ITI SelectionDeadline ...
     ISI fixFont textfont rightkey leftkey endcode NoTrial display centerX centerY windowRect
@@ -32,10 +33,18 @@ addpath(fullfile(directory,'PsychtoolNeces'))
 subjectId=input('What is subject ID?');
 Session=input('What is study session? Test(1), ReTest(2): '); % this can be 1 or 2 (test and re-test)
 Phase=input('What is study phase? Learning(1), Decision(2): '); % this can be 1 or 2 (1 is Learning, 2 is Test)
-if mod(subjectId,Session+1) == 1 % two different sets of cards for 2 separate sessions
-    colorlist = {'Blue','Green','Yellow','Red'}; %these letters will be used for selecting the card images
+if Session == 1
+    if mod(subjectId,2) == 1 % two different sets of cards for 2 separate sessions
+        colorlist = {'Blue','Green','Yellow','Red'}; %these letters will be used for selecting the card images
+    else
+        colorlist = {'Grey','Orange','Purple','Turco'}; %these letters will be used for selecting the card images
+    end
 else
-    colorlist = {'Grey','Orange','Purple','Turco'}; %these letters will be used for selecting the card images
+    if mod(subjectId,2) == 1 % two different sets of cards for 2 separate sessions
+        colorlist = {'Grey','Orange','Purple','Turco'}; %these letters will be used for selecting the card images
+    else
+        colorlist = {'Blue','Green','Yellow','Red'}; %these letters will be used for selecting the card images
+    end
 end
 datafileName = ['ID_' num2str(subjectId) '_Data Folder'];
 if ~exist(datafileName, 'dir')
@@ -135,12 +144,14 @@ switch Session
                 for f=1:length(files)
                 movefile(fullfile(files(f).folder,files(f).name), datafileName)
                 end
+                save(strcat(['Learning_subject_' num2str(subjectId) '_Session' num2str(Session)]))
             case 2 % Decision Phase
                 [Results] = DecisionPhaseSequence(Instructions);
                 files = dir(['*_subject' num2str(subjectId) '*.xlsx']);                
                 for f=1:length(files)
                     movefile(fullfile(files(f).folder,files(f).name), datafileName)
                 end
+                save(strcat(['Decision_subject_' num2str(subjectId) '_Session' num2str(Session)]))
             otherwise
                 Screen('CloseAll');
                 ListenChar(0);
@@ -148,6 +159,8 @@ switch Session
                 fprintf('\n')
                 disp('>>> Phase number can be only 1 (learning) or 2 (decision)!!! <<<')
         end
+        movefile('*_Session*.mat',datafileName)
+        movefile(datafileName,'AllSubjectData')
     otherwise
         Screen('CloseAll');
         ListenChar(0);
