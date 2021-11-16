@@ -589,8 +589,74 @@ j=1; kind=[repmat(1,1,50) repmat(2,1,50)]; kind=Shuffle(kind);
 m = 0; level = 999; Instructions = 1;
 [imgtile] = imread('PracticeTile','png');
 acc = 0; learning=0; switchnumber=4;
+
+Order = [ 1 2 2 2 1 1 2 1];
+acc = 0; learning=0; % NO DEADLINE SCHEDULE
 while learning < 1 % learning happens with 50% switch probability and a predetermined sequence
-    Order = [ 1 2 2 2 1 1 2 1]; 
+    for t=1:4
+        Shuffle(Order);
+        [List,Parity,Magnitude,ParityOrder] = GenerateNumbers(j,kind,NoNumbers,Order,exclude,versionNo)
+        [Responses,m] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline*100,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses)
+        Results.Subject(subjectId).Session(Session).Responses.Practice = Responses.Trial;
+        j=j+1;
+    end
+    AverageOver=[]; AverageOver=Responses.Trial(end-23:end,3);
+    acc = mean(AverageOver((AverageOver<9),:));
+    if acc < .70
+        learning = 0;
+        Screen('TextSize',display.windowPtr, textfont);
+        DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+            'Do you have any questions?', ...
+            'If yes, please ask the experimenter now.', ...
+            'If not, lets continue with the practice!', ...
+            '(Press a key to continue.)'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
+        Screen('Flip',display.windowPtr); KbStrokeWait;
+    else
+        Screen('TextSize',display.windowPtr, textfont);
+        DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+            'Now things will get a bit quicker ', ...
+            'Remember to be as fast and as accurate as possible! ', ...
+            '(Press a key to start practicing)'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+        Screen('Flip',display.windowPtr);
+        KbStrokeWait; learning = 1;
+        break
+    end
+end
+
+acc = 0; learning=0; % DOUBLE DEADLINE SCHEDULE
+while learning < 1 % learning happens with 50% switch probability and a predetermined sequence
+    for t=1:4
+        Shuffle(Order);
+        [List,Parity,Magnitude,ParityOrder] = GenerateNumbers(j,kind,NoNumbers,Order,exclude,versionNo)
+        [Responses,m] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline*2,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses)
+        Results.Subject(subjectId).Session(Session).Responses.Practice = Responses.Trial;
+        j=j+1;
+    end
+    AverageOver=[]; AverageOver=Responses.Trial(end-23:end,3);
+    acc = mean(AverageOver((AverageOver<9),:));
+    if acc < .70
+        learning = 0;
+        Screen('TextSize',display.windowPtr, textfont);
+        DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+            'Do you have any questions?', ...
+            'If yes, please ask the experimenter now.', ...
+            'If not, lets continue with the practice!', ...
+            '(Press a key to continue.)'), 'center', 'center', [255 255 255], [100],[],[],[1.5]);
+        Screen('Flip',display.windowPtr); KbStrokeWait;
+    else
+        Screen('TextSize',display.windowPtr, textfont);
+        DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+            'Now you will complete the task with the real task durations ', ...
+            'Remember to be as fast and as accurate as possible! ', ...
+            '(Press a key to start practicing)'), 'center', 'center', [255 255 255], [100],[],[],[1.25]);
+        Screen('Flip',display.windowPtr);
+        KbStrokeWait; learning = 1;
+        break
+    end
+end
+
+acc = 0; learning=0; % REAL DEADLINE SCHEDULE
+while learning < 1 % learning happens with 50% switch probability and a predetermined sequence
     
     Shuffle(Order);
     [List,Parity,Magnitude,ParityOrder] = GenerateNumbers(j,kind,NoNumbers,Order,exclude,versionNo)
@@ -612,7 +678,7 @@ while learning < 1 % learning happens with 50% switch probability and a predeter
     
     AverageOver=[]; AverageOver=Responses.Trial(end-23:end,3);
     acc = mean(AverageOver((AverageOver<9),:));
-    if acc < .90
+    if acc < .70
         learning = 0;
         Screen('TextSize',display.windowPtr, textfont);
         DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
