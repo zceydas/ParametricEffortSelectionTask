@@ -76,7 +76,7 @@ Responses=[];
             [Responses,m] = GenerateTrials(j,level,List,m,switchnumber,NoNumbers,Order,versionNo,display,imgtile,centerX,centerY,UntilKey,Parity,TrialDeadline,endcode,rightkey,leftkey,FixDur,WaitTime,Instructions,Responses);    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             Results.Subject(subjectId).Session(Session).Responses.Learning = Responses.Trial;
-            save SeqPref Results
+        %    save SeqPref Results
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%% End Screen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,6 +100,7 @@ Responses=[];
                     'VariableNames',{'BlockNo','EffortLevel','Accuracy','RT', 'SwitchNumber','TrialType', 'Response', ...
                     'Number', 'CorrectAnswer', 'Order', 'StartTrial', 'Trial', 'TrialStartTime', 'TrialStartSince' })
                 writetable(Table,['Learning_Session',num2str(Session),'_' 'subject',num2str(subjectId),'_',date,'.xlsx'])
+                save SeqPref Results
                 break
             end
         end

@@ -4,7 +4,7 @@ global endcode
 global display centerX centerY fixFont textfont
 leftkey = KbName('2@');%yellow button';  
 rightkey=KbName('3#');%green button
-researchgo=KbName('Return'); % blue button 
+researchgo=KbName('return'); % blue button 
 trigger=KbName('5%'); % blue button 
 load SeqPref
 Responses=[];
@@ -197,7 +197,7 @@ while m < 10000
                         [keyIsDown,TimeStamp,keyCode] = KbCheck;
                         if keyIsDown
                             if (keyCode(endcode))
-                                save SeqPref Results
+                              %  save SeqPref Results
                                 Screen('TextSize', display.windowPtr, textfont);
                                 DrawFormattedText(display.windowPtr, 'Study is over. Thanks for your participation! ', 'center', 'center', [255 255 255], [100]);
                                 Screen('Flip',display.windowPtr);
@@ -287,37 +287,40 @@ while m < 10000
         Responses.Test(j,12)= Run; % keep track of which run it is 
         Results.Subject(subjectId).Session(Session).Responses.DecisionPhase.Selection = Responses.Test;
     end
-    save SeqPref Results
+  %  save SeqPref Results
     
     Screen('TextSize',display.windowPtr, fixFont);
     Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   textcolor);
     Screen('Flip',display.windowPtr); WaitSecs(TempITI(j)); % this ITI is retrieved from optseq2 optimized list
     if AllTemp(1,j+1)==0
         break
-    elseif j == 36
+    
+    end
+    
+    if j == 36
         Screen('TextSize', display.windowPtr, textfont);
         DrawFormattedText(display.windowPtr, 'You can now take a break. Please remember to stay still.', 'center', 'center', [255 255 255], [100]);
         Screen('Flip',display.windowPtr);
         WaitSecs(BreakTime)
         answer=[];
         while 1 %waits for trigger from scanner and then moves on to experiment
-            [keyIsDown,TimeStamp,keyCode] = KbCheck;  
+            [keyIsDown,TimeStamp,keyCode] = KbCheck;
             if (keyCode(researchgo))
                 break;
             end
         end
         
-
-DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
-    'Wait for scanner trigger..'), 'center', 'center',textcolor, [100],[],[],[1.5]);
-Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
-
-while 1
-    [keyIsDown, secs, keyCode] = KbCheck; % this checks trigger
-    if keyCode(trigger) % when the trigger pulses, this will be true
-        break;
-    end
-end
+        
+        DrawFormattedText(display.windowPtr, sprintf('%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s', ...
+            'Wait for scanner trigger..'), 'center', 'center',textcolor, [100],[],[],[1.5]);
+        Screen('Flip',display.windowPtr); WaitSecs(UntilKey);
+        
+        while 1
+            [keyIsDown, secs, keyCode] = KbCheck; % this checks trigger
+            if keyCode(trigger) % when the trigger pulses, this will be true
+                break;
+            end
+        end
         
         
         FunctionStartTime=GetSecs; % this is the time point I assume fMRI is starting recording
@@ -325,7 +328,9 @@ end
         Screen('DrawText', display.windowPtr, sprintf( '%s', '+' ), centerX - 15, centerY -21,   textcolor);
         Screen('Flip',display.windowPtr); WaitSecs(FirstFixation); % this ITI is retrieved from optseq2 optimized list
         Run=2;
+        save SeqPref Results
     end
+    
 end
 
 Screen('Flip',display.windowPtr);
